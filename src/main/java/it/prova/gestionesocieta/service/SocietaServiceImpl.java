@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,8 +52,17 @@ public class SocietaServiceImpl implements SocietaService{
 
 	@Override
 	public List<Societa> findByExample(Societa example) {
-		// TODO Auto-generated method stub
-		return null;
+		String query = "select s from Societa s where s.id = s.id ";
+		
+		if (StringUtils.isNotEmpty(example.getRagioneSociale()))
+			query += " and s.ragioneSociale like '%" + example.getRagioneSociale() + "%' ";
+		if (StringUtils.isNotEmpty(example.getIndirizzo()))
+			query += " and s.indirizzo like '%" + example.getIndirizzo() + "%' ";
+		if (example.getDataFondazione() != null)
+			query += " and s.dataFondazione >= " + "'" + example.getDataFondazione().toInstant() + "'";
+		
+		
+		return entityManager.createQuery(query, Societa.class).getResultList();
 	}
 	
 

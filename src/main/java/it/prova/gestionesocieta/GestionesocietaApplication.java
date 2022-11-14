@@ -19,8 +19,9 @@ public class GestionesocietaApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		 System.out.println("####################INIZIO BATTERIA DI TEST####################\n");
+		 System.out.println("\n####################INIZIO BATTERIA DI TEST####################");
 		 batteriaDiTestService.testInserimentoSocieta();
+		 batteriaDiTestService.testFindByExampleSocieta();
 		 System.out.println("\n####################FINE BATTERIA DI TEST####################");
 
 		
