@@ -104,7 +104,7 @@ public class BatteriaDiTestService {
 	public void testInserimentoDipendente() throws ParseException {
 
 		System.out.println("\n testInserimentoDipendente INIZIO...");
-		
+
 		// creo una nuova societa
 		Societa societaInstance = new Societa("Solving Team S.R.L.", "Via Mosca 52",
 				new SimpleDateFormat("dd-MM-yyyy").parse("13-06-2002"));
@@ -114,8 +114,7 @@ public class BatteriaDiTestService {
 
 		// verifico corretto inserimento
 		if (societaInstance.getId() == null)
-			throw new RuntimeException(
-					"testInserimentoDipendente FAILED: societa non inserita.");
+			throw new RuntimeException("testInserimentoDipendente FAILED: societa non inserita.");
 
 		// creo nuovo dipendente e lo associo alla societa
 		Dipendente dipendenteInstance = new Dipendente("Diego", "Mezzo",
@@ -126,17 +125,16 @@ public class BatteriaDiTestService {
 
 		// verifico corretto inserimento
 		if (dipendenteInstance.getId() == null)
-			throw new RuntimeException(
-					"testInserimentoDipendente FAILED: dipendente non inserito.");
-		
+			throw new RuntimeException("testInserimentoDipendente FAILED: dipendente non inserito.");
+
 		System.out.println("\n testInserimentoDipendente FINE: PASSED...");
 
 	}
-	
+
 	public void testModificaDipendente() throws ParseException {
-		
-System.out.println("\n testModificaDipendente INIZIO...");
-		
+
+		System.out.println("\n testModificaDipendente INIZIO...");
+
 		// creo una nuova societa
 		Societa societaInstance = new Societa("Solving Team S.R.L.", "Via Mosca 52",
 				new SimpleDateFormat("dd-MM-yyyy").parse("13-06-2002"));
@@ -146,8 +144,7 @@ System.out.println("\n testModificaDipendente INIZIO...");
 
 		// verifico corretto inserimento
 		if (societaInstance.getId() == null)
-			throw new RuntimeException(
-					"testModificaDipendente FAILED: societa non inserita.");
+			throw new RuntimeException("testModificaDipendente FAILED: societa non inserita.");
 
 		// creo nuovo dipendente e lo associo alla societa
 		Dipendente dipendenteInstance = new Dipendente("Diego", "Mezzo",
@@ -158,20 +155,69 @@ System.out.println("\n testModificaDipendente INIZIO...");
 
 		// verifico corretto inserimento
 		if (dipendenteInstance.getId() == null)
-			throw new RuntimeException(
-					"testModificaDipendente FAILED: dipendente non inserito.");
-		
-		//esecuzione update
+			throw new RuntimeException("testModificaDipendente FAILED: dipendente non inserito.");
+
+		// esecuzione update
 		String vecchioNome = dipendenteInstance.getNome();
 		dipendenteInstance.setNome("Mirko");
 		dipendenteService.aggiorna(dipendenteInstance);
-		
-		//verifica corretto funzionamento update
+
+		// verifica corretto funzionamento update
 		Dipendente dipendenteRicaricatoDaDB = dipendenteService.caricaSingoloDipendente(dipendenteInstance.getId());
-		if(vecchioNome.equals(dipendenteRicaricatoDaDB.getNome()))
+		if (vecchioNome.equals(dipendenteRicaricatoDaDB.getNome()))
 			throw new RuntimeException("testModificaDipendente FAILED: dipendente non modificato.");
-		
+
 		System.out.println("\n testModificaDipendente FINE: PASSED...");
+
+	}
+
+	public void testCercaTutteLeSocietaConDipendentiConRALMaggioreDi() throws ParseException {
+
+		System.out.println("\n testCercaTutteLeSocietaConDipendentiConRALMaggioreDi INIZIO...");
+
+		// creo una nuova societa
+		Societa societaInstance = new Societa("Solving Team S.R.L.", "Via Mosca 52",
+				new SimpleDateFormat("dd-MM-yyyy").parse("13-06-2002"));
+
+		// la inserisco
+		societaService.inserisciNuovo(societaInstance);
+
+		// verifico corretto inserimento
+		if (societaInstance.getId() == null)
+			throw new RuntimeException("testCercaTutteLeSocietaConDipendentiConRALMaggioreDi FAILED: societa non inserita.");
+
+		// creo nuovo dipendente e lo associo alla societa
+		Dipendente dipendenteInstance = new Dipendente("Diego", "Mezzo",
+				new SimpleDateFormat("dd-MM-yyyy").parse("01-01-2002"), 50000, societaInstance);
+
+		// salvo
+		dipendenteService.inserisciNuovo(dipendenteInstance);
+
+		// verifico corretto inserimento
+		if (dipendenteInstance.getId() == null)
+			throw new RuntimeException("testCercaTutteLeSocietaConDipendentiConRALMaggioreDi FAILED: dipendente non inserito.");
+
+		// creo nuovo dipendente e lo associo alla societa
+		Dipendente dipendenteInstance1 = new Dipendente("Bruno", "Alighieri",
+				new SimpleDateFormat("dd-MM-yyyy").parse("11-07-1975"), 20000, societaInstance);
+
+		// salvo
+		dipendenteService.inserisciNuovo(dipendenteInstance1);
+
+		// verifico corretto inserimento
+		if (dipendenteInstance1.getId() == null)
+			throw new RuntimeException("testCercaTutteLeSocietaConDipendentiConRALMaggioreDi FAILED: dipendente non inserito.");
 		
+		//esecuzione query di ricerca
+		List<Societa> listaSocietaConDipendentiAventiRALMaggioreDi = societaService.cercaTutteLeSocietaConDipendentiConRALMaggioreDi(30000);
+		
+		System.out.println(listaSocietaConDipendentiAventiRALMaggioreDi);
+
+		if(listaSocietaConDipendentiAventiRALMaggioreDi.size() != 1)
+			throw new RuntimeException("testCercaTutteLeSocietaConDipendentiConRALMaggioreDi FAILED: errore query di ricerca.");
+		
+		System.out.println("\n testCercaTutteLeSocietaConDipendentiConRALMaggioreDi FINE: PASSED...");
+
+
 	}
 }
