@@ -133,9 +133,45 @@ public class BatteriaDiTestService {
 
 	}
 	
-	public void testModificaDipendente() {
+	public void testModificaDipendente() throws ParseException {
 		
+System.out.println("\n testModificaDipendente INIZIO...");
 		
+		// creo una nuova societa
+		Societa societaInstance = new Societa("Solving Team S.R.L.", "Via Mosca 52",
+				new SimpleDateFormat("dd-MM-yyyy").parse("13-06-2002"));
+
+		// la inserisco
+		societaService.inserisciNuovo(societaInstance);
+
+		// verifico corretto inserimento
+		if (societaInstance.getId() == null)
+			throw new RuntimeException(
+					"testModificaDipendente FAILED: societa non inserita.");
+
+		// creo nuovo dipendente e lo associo alla societa
+		Dipendente dipendenteInstance = new Dipendente("Diego", "Mezzo",
+				new SimpleDateFormat("dd-MM-yyyy").parse("01-01-2002"), 50000, societaInstance);
+
+		// salvo
+		dipendenteService.inserisciNuovo(dipendenteInstance);
+
+		// verifico corretto inserimento
+		if (dipendenteInstance.getId() == null)
+			throw new RuntimeException(
+					"testModificaDipendente FAILED: dipendente non inserito.");
+		
+		//esecuzione update
+		String vecchioNome = dipendenteInstance.getNome();
+		dipendenteInstance.setNome("Mirko");
+		dipendenteService.aggiorna(dipendenteInstance);
+		
+		//verifica corretto funzionamento update
+		Dipendente dipendenteRicaricatoDaDB = dipendenteService.caricaSingoloDipendente(dipendenteInstance.getId());
+		if(vecchioNome.equals(dipendenteRicaricatoDaDB.getNome()))
+			throw new RuntimeException("testModificaDipendente FAILED: dipendente non modificato.");
+		
+		System.out.println("\n testModificaDipendente FINE: PASSED...");
 		
 	}
 }
