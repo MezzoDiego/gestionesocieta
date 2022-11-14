@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.gestionesocieta.model.Societa;
 import it.prova.gestionesocieta.repository.SocietaRepository;
@@ -16,35 +17,42 @@ public class SocietaServiceImpl implements SocietaService{
 	
 	@Autowired
 	private SocietaRepository societaRepository;
+	
+	@PersistenceContext
+	private EntityManager entityManager;
 
-	@Override
+	@Transactional(readOnly = true)
 	public List<Societa> listAllSocieta() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Societa>) societaRepository.findAll();
 	}
 
-	@Override
+	@Transactional(readOnly = true)
 	public Societa caricaSingolaSocieta(Long id) {
+		return societaRepository.findById(id).orElse(null);
+	}
+
+	@Transactional
+	public void aggiorna(Societa societaInstance) {
+		societaRepository.save(societaInstance);
+		
+	}
+
+	@Transactional
+	public void inserisciNuovo(Societa societaInstance) {
+		societaRepository.save(societaInstance);
+		
+	}
+
+	@Transactional
+	public void rimuovi(Societa societaInstance) {
+		societaRepository.delete(societaInstance);
+		
+	}
+
+	@Override
+	public List<Societa> findByExample(Societa example) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void aggiorna(Societa societaInstance) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void inserisciNuovo(Societa societaInstance) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void rimuovi(Societa societaInstance) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 

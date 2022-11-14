@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.gestionesocieta.model.Dipendente;
 import it.prova.gestionesocieta.repository.DipendenteRepository;
@@ -20,33 +21,31 @@ public class DipendenteServiceImpl implements DipendenteService{
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	@Override
+	@Transactional(readOnly = true)
 	public List<Dipendente> listAllDipendenti() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Dipendente>) dipendenteRepository.findAll();
 	}
 
-	@Override
+	@Transactional(readOnly = true)
 	public Dipendente caricaSingoloDipendente(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return dipendenteRepository.findById(id).orElse(null);
 	}
 
-	@Override
+	@Transactional
 	public void aggiorna(Dipendente dipendenteInstance) {
-		// TODO Auto-generated method stub
+		dipendenteRepository.save(dipendenteInstance);
 		
 	}
 
-	@Override
+	@Transactional
 	public void inserisciNuovo(Dipendente dipendenteInstance) {
-		// TODO Auto-generated method stub
+		dipendenteRepository.save(dipendenteInstance);
 		
 	}
 
-	@Override
+	@Transactional
 	public void rimuovi(Dipendente dipendenteInstance) {
-		// TODO Auto-generated method stub
+		dipendenteRepository.delete(dipendenteInstance);
 		
 	}
 
