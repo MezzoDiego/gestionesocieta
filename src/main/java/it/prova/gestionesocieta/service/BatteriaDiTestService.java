@@ -67,8 +67,6 @@ public class BatteriaDiTestService {
 	public void testEliminazioneSocietaCustomExceptionSeDipendentiAssociati() throws ParseException {
 		System.out.println("\n testEliminazioneSocietaCustomExceptionSeDipendentiAssociati INIZIO...");
 
-		String cognomeToken= "Mezzo";
-		
 		// creo una nuova societa
 		Societa societaInstance = new Societa("Solving Team S.R.L.", "Via Mosca 52",
 				new SimpleDateFormat("dd-MM-yyyy").parse("13-06-2002"));
@@ -81,17 +79,18 @@ public class BatteriaDiTestService {
 			throw new RuntimeException(
 					"testEliminazioneSocietaCustomExceptionSeDipendentiAssociati FAILED: societa non inserita.");
 
-		//creo nuovo dipendente e lo associo alla societa
-		Dipendente dipendenteInstance = new Dipendente("Diego", "Mezzo", new SimpleDateFormat("dd-MM-yyyy").parse("01-01-2002"), 50000, societaInstance);
-		
-		//salvo
+		// creo nuovo dipendente e lo associo alla societa
+		Dipendente dipendenteInstance = new Dipendente("Diego", "Mezzo",
+				new SimpleDateFormat("dd-MM-yyyy").parse("01-01-2002"), 50000, societaInstance);
+
+		// salvo
 		dipendenteService.inserisciNuovo(dipendenteInstance);
-		
-		//verifico corretto inserimento
-		if(dipendenteInstance.getId() == null)
-			throw new RuntimeException("testEliminazioneSocietaCustomExceptionSeDipendentiAssociati FAILED: dipendente non inserito.");
-			
-		
+
+		// verifico corretto inserimento
+		if (dipendenteInstance.getId() == null)
+			throw new RuntimeException(
+					"testEliminazioneSocietaCustomExceptionSeDipendentiAssociati FAILED: dipendente non inserito.");
+
 		try {
 			societaService.rimuovi(societaInstance);
 		} catch (SocietaConDipendentiAssociatiException ex) {
@@ -100,5 +99,43 @@ public class BatteriaDiTestService {
 
 		System.out.println("\n testEliminazioneSocietaCustomExceptionSeDipendentiAssociati FINE: PASSED...");
 
+	}
+
+	public void testInserimentoDipendente() throws ParseException {
+
+		System.out.println("\n testInserimentoDipendente INIZIO...");
+		
+		// creo una nuova societa
+		Societa societaInstance = new Societa("Solving Team S.R.L.", "Via Mosca 52",
+				new SimpleDateFormat("dd-MM-yyyy").parse("13-06-2002"));
+
+		// la inserisco
+		societaService.inserisciNuovo(societaInstance);
+
+		// verifico corretto inserimento
+		if (societaInstance.getId() == null)
+			throw new RuntimeException(
+					"testInserimentoDipendente FAILED: societa non inserita.");
+
+		// creo nuovo dipendente e lo associo alla societa
+		Dipendente dipendenteInstance = new Dipendente("Diego", "Mezzo",
+				new SimpleDateFormat("dd-MM-yyyy").parse("01-01-2002"), 50000, societaInstance);
+
+		// salvo
+		dipendenteService.inserisciNuovo(dipendenteInstance);
+
+		// verifico corretto inserimento
+		if (dipendenteInstance.getId() == null)
+			throw new RuntimeException(
+					"testInserimentoDipendente FAILED: dipendente non inserito.");
+		
+		System.out.println("\n testInserimentoDipendente FINE: PASSED...");
+
+	}
+	
+	public void testModificaDipendente() {
+		
+		
+		
 	}
 }

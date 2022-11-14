@@ -23,6 +23,7 @@ public class GestionesocietaApplication implements CommandLineRunner{
 		 batteriaDiTestService.testInserimentoSocieta();
 		 batteriaDiTestService.testFindByExampleSocieta();
 		 batteriaDiTestService.testEliminazioneSocietaCustomExceptionSeDipendentiAssociati();
+		 batteriaDiTestService.testInserimentoSocieta();
 		 System.out.println("\n####################FINE BATTERIA DI TEST####################");
 
 		
