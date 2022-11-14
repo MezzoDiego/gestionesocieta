@@ -1,5 +1,6 @@
 package it.prova.gestionesocieta.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -52,6 +53,11 @@ public class DipendenteServiceImpl implements DipendenteService{
 	@Override
 	public List<Dipendente> cercaPerCognomeEager(String cognome) {
 		return dipendenteRepository.findByCognome(cognome);
+	}
+
+	@Override
+	public Dipendente cercaPerDataAssunzioneMenoRecenteEDataFondazioneSocietaMinoreDi(Date input) {
+		return dipendenteRepository.findFirstBySocieta_dataFondazioneBeforeOrderByDataAssunzioneAsc(input);
 	}
 
 }

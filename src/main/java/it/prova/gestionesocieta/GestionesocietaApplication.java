@@ -26,6 +26,7 @@ public class GestionesocietaApplication implements CommandLineRunner{
 		// batteriaDiTestService.testInserimentoSocieta();
 		// batteriaDiTestService.testModificaDipendente();
 		// batteriaDiTestService.testCercaTutteLeSocietaConDipendentiConRALMaggioreDi();
+		 batteriaDiTestService.testCercaPerDataAssunzioneMenoRecenteEDataFondazioneSocietaMinoreDi();
 		 System.out.println("\n####################FINE BATTERIA DI TEST####################");
 
 		

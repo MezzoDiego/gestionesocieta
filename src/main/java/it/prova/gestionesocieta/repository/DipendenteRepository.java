@@ -1,5 +1,6 @@
 package it.prova.gestionesocieta.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -13,4 +14,7 @@ public interface DipendenteRepository extends CrudRepository<Dipendente, Long>,Q
 
 	@EntityGraph(attributePaths = { "societa" })
 	public List<Dipendente> findByCognome(String cognome);
+	
+	@EntityGraph(attributePaths = { "societa" })
+	public Dipendente findFirstBySocieta_dataFondazioneBeforeOrderByDataAssunzioneAsc(Date dataConfronto);
 }

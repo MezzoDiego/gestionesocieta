@@ -220,4 +220,54 @@ public class BatteriaDiTestService {
 
 
 	}
+	
+	public void testCercaPerDataAssunzioneMenoRecenteEDataFondazioneSocietaMinoreDi() throws ParseException {
+		
+		System.out.println("\n testCercaPerDataAssunzioneMenoRecenteEDataFondazioneSocietaMinoreDi INIZIO...");
+		
+		// creo una nuova societa
+				Societa societaInstance = new Societa("Solving Team S.R.L.", "Via Mosca 52",
+						new SimpleDateFormat("dd-MM-yyyy").parse("13-06-1885"));
+
+				// la inserisco
+				societaService.inserisciNuovo(societaInstance);
+
+				// verifico corretto inserimento
+				if (societaInstance.getId() == null)
+					throw new RuntimeException("testCercaPerDataAssunzioneMenoRecenteEDataFondazioneSocietaMinoreDi FAILED: societa non inserita.");
+
+				// creo nuovo dipendente e lo associo alla societa
+				Dipendente dipendenteInstance = new Dipendente("Diego", "Mezzo",
+						new SimpleDateFormat("dd-MM-yyyy").parse("01-01-2002"), 50000, societaInstance);
+
+				// salvo
+				dipendenteService.inserisciNuovo(dipendenteInstance);
+
+				// verifico corretto inserimento
+				if (dipendenteInstance.getId() == null)
+					throw new RuntimeException("testCercaPerDataAssunzioneMenoRecenteEDataFondazioneSocietaMinoreDi FAILED: dipendente non inserito.");
+
+				// creo nuovo dipendente e lo associo alla societa
+				Dipendente dipendenteInstance1 = new Dipendente("Bruno", "Alighieri",
+						new SimpleDateFormat("dd-MM-yyyy").parse("11-07-1975"), 20000, societaInstance);
+
+				// salvo
+				dipendenteService.inserisciNuovo(dipendenteInstance1);
+
+				// verifico corretto inserimento
+				if (dipendenteInstance1.getId() == null)
+					throw new RuntimeException("testCercaPerDataAssunzioneMenoRecenteEDataFondazioneSocietaMinoreDi FAILED: dipendente non inserito.");
+				
+				//esecuzione query di ricerca
+				Date dataConfronto = new SimpleDateFormat("dd-MM-yyyy").parse("01-01-1990");
+				Dipendente dipendentePiuAnzianoDiSocietaFondataPrimaDel = dipendenteService.cercaPerDataAssunzioneMenoRecenteEDataFondazioneSocietaMinoreDi(dataConfronto);
+
+				//verifica corretto funzionamento
+				if(dipendentePiuAnzianoDiSocietaFondataPrimaDel == null)
+					throw new RuntimeException("testCercaPerDataAssunzioneMenoRecenteEDataFondazioneSocietaMinoreDi FAILED: non trovato.");
+				
+				System.out.println("\n testCercaPerDataAssunzioneMenoRecenteEDataFondazioneSocietaMinoreDi FINE: PASSED...");
+
+		
+	}
 }
