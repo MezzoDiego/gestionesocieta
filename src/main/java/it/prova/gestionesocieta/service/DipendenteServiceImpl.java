@@ -49,4 +49,9 @@ public class DipendenteServiceImpl implements DipendenteService{
 		
 	}
 
+	@Override
+	public List<Dipendente> cercaPerCognomeEager(String cognome) {
+		return dipendenteRepository.findByCognome(cognome);
+	}
+
 }
